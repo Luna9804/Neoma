@@ -1,0 +1,163 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --bg-primary:#0a0a1a;
+    --bg-secondary: #111128;
+    --accent: #7b6cff;
+    --accent-glow: rgba(123, 108, 255,0.3);
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0c0;
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+body{
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+header{
+    text-align: center;
+    padding: 60px 20px 40px;
+    border-bottom: 1px solid var(--border);
+}
+
+header h1{
+    font-size: 3rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--accent-glow);
+}
+
+header p{
+    margin-top: 10px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+}
+
+main{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+section{
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+section h2{
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+#apod-content img{
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+#apod-content h3{
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+}
+
+#apod-content .date{
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+}
+
+#apod-content .explanation{
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+.loader{
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 40px auto;
+
+}
+
+@keyframes spin {
+    to{ transform: rotate(360deg);}
+}
+
+.launch-info h3{
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+}
+
+.launch-provider{
+    color: var(--accent);
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.launch-location{
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+}
+
+.launch-status{
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.countdown-grid{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    margin-top: 10px;
+    width: fit-content;
+    margin: 16px auto 0;
+}
+
+.countdown-item{
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+    width: 80px;
+    flex-shrink: 0;
+}
+
+.countdown-item span{
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent-glow);
+    display: block;
+}
+
+.countdown-item p{
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+}
