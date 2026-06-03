@@ -41,6 +41,21 @@ app.get('/api/launch', async(req, res) =>{
     }
 });
 
+app.get('/api/iss', async(req, res)=>{
+    try{
+        const response = await fetch(
+            'http://api.open-notify.org/iss-now.json'
+        );
+        if(!response.ok){
+            throw new Error('ISS API request failed');
+        }
+        const data = await response.json();
+        res.json(data);
+    }catch (error){
+        console.log('ISS error:', error.message);
+        res.status(500).json({error: 'Failed to fetch ISS data'});
+    }
+});
 
 app.listen(PORT, ()=>{
     console.log(`Neoma server running at http://localhost:${PORT}`);

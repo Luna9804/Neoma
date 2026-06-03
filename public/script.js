@@ -78,5 +78,58 @@ async function fetchLaunch(){
     }
 }
 
+let issMap = null;
+let issMarker = null;
+
+async function fetchISS(){
+    try{
+        const response = await fetch('/api/iss');
+        const data = await response.json();
+
+        const lat = parseFloat(data.iss_position.latitude);
+        const lon = parseFloat(data.iss_position.longitude);
+
+        const content = document.getElementById('iss-content');
+
+        if(!issMap){
+            content.innerHTML = `
+            <div id="iss-map"></div>
+            <div class="iss-coords">
+                <div class="iss-coord-item">
+                    <span id="iss-lat"> ${lat.toFixed(4)}</span>
+                    <p>Latitude</p>
+                </div>
+                <div class="iss-coord-item">
+                    <span id="iss-lon">${lon.toFixed(4)}</span>
+                    <p>Longitude</p>
+                </div>
+            </div>
+            `;
+
+            issMap = L.map('iss-map').setView([lat, lon], 3);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(issMap);
+
+            issMarker = L.marker([lat, lon]).addTo(issMap)
+                .bindPopup('ISS is here!')
+                .openPopup();
+        } else{
+            issMarker.setLatLng([lat, lon]);
+            issMap.setView([lat, lon], 3);
+            document.getElementById('iss-lat').textContent = lat.toFixed(4);
+            document.getElementById('iss-lon').textContent = lon.toFixed(4);
+        
+        } 
+    } catch(error){
+        if(!issMap){
+            document.getElementById('iss-content').innerHTML = '<p>Failed to load ISS data. Please try again later.</p>';
+        }
+    }
+}
+setInterval(fetchISS, 5000);
+
 fetchAPOD();
 fetchLaunch();
+fetchISS();
