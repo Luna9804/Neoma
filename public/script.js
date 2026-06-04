@@ -130,6 +130,56 @@ async function fetchISS(){
 }
 setInterval(fetchISS, 5000);
 
+async function fetchAsteroids(){
+    try{
+        const response = await fetch('/api/asteroids');
+        const asteroids = await response.json();
+
+        const content = document.getElementById('asteroid-content');
+        const asteroidHTML = asteroids.map(asteroid => {
+            const diameter = asteroid.estimated_diameter.meters;
+            const avgDiameter = ((diameter.estimated_diameter_min + diameter.estimated_diameter_max) /2 ).toFixed(0);
+            const distance = parseFloat(asteroid.close_approach_data[0].miss_distance.kilometers).toLocaleString('en-US', {maximumFractionDigits: 0});
+            const velocity = parseFloat(asteroid.close_approach_data[0].relative_velocity.kilometers_per_hour).toLocaleString('en-US', {maximumFractionDigits:0});
+            const date = asteroid.close_approach_data[0].close_approach_date;
+            const hazardous = asteroid.is_potentially_hazardous_asteroid;
+
+            return `
+                <div class="asteroid-card">
+                    <div class="asteroid-header">
+                        <h3>${asteroid.name}</h3>
+                        <span class="asteroid-badge ${hazardous ? 'hazardous' : 'safe'}">
+                            ${hazardous ? 'Hazardous' : 'Safe'}
+                        </span>
+                    </div>
+                    <div class="asteroid-stats">
+                        <div class="asteroid-stat">
+                            <span>${distance} km</span>
+                            <p>Miss Distance</p>
+                        </div>
+                        <div class="asteroid-stat">
+                            <span>${avgDiameter} m</span>
+                            <p>Avg Diameter</p>
+                        </div>
+                        <div class="asteroid-stat">
+                            <span>${velocity} km/h</span>
+                            <p>Velocity</p>
+                        </div>
+                        <div class= "asteroid-stat">
+                            <span>${date}</span>
+                            <p>Close Approach</p>
+                        </div>
+                    </div>
+                </div>
+                `;
+        }).join('');
+        content.innerHTML = asteroidHTML;
+    } catch(error){
+        document.getElementById('asteroid-content').innerHTML = 
+        '<p>Failed to load asteroid data. Please try again later.</p>';
+    }
+}
 fetchAPOD();
 fetchLaunch();
 fetchISS();
+fetchAsteroids();
